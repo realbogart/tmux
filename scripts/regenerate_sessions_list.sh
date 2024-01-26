@@ -6,9 +6,9 @@ RESOURCES_DIR=$SCRIPT_DIR/../resources
 TMP_DIR=$SCRIPT_DIR/../tmp
 
 GITROOTS_FILE="$RESOURCES_DIR/gitroots"
-GITREPOS_FILE="$TMP_DIR/gitrepos"
+SESSIONS_FILE="$TMP_DIR/sessions"
 
-echo "Regenerating Git repository list '$GITREPOS_FILE'"
+echo "Regenerating Git repository list '$SESSIONS_FILE'"
 
 default_dir=~
 
@@ -16,11 +16,11 @@ if [ ! -d "$TMP_DIR" ]; then
     mkdir -p "$TMP_DIR"
 fi
 
-> $GITREPOS_FILE
+> $SESSIONS_FILE
 
 find_git_dirs() {
     local dir_path="$1"
-    find "$dir_path" -name ".git" | sed 's/\.git$//' >> $GITREPOS_FILE
+    find "$dir_path" -name ".git" | sed 's/\.git$//' >> $SESSIONS_FILE
 }
 
 expand_variables() {

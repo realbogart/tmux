@@ -3,15 +3,19 @@
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd)
 TMP_DIR=$SCRIPT_DIR/../tmp
-GITREPOS_FILE="$TMP_DIR/gitrepos"
+SESSIONS_FILE="$TMP_DIR/sessions"
 PREVIEW_SCRIPT=$SCRIPT_DIR/preview_session.sh
 
-if [ ! -f "$GITREPOS_FILE" ]; then
-    "$SCRIPT_DIR/regenerate_gitrepos_list.sh"
+if [ ! -f "$SESSIONS_FILE" ]; then
+    "$SCRIPT_DIR/regenerate_sessions_list.sh"
 fi
 
-selected_repo=$(cat "$GITREPOS_FILE" | fzf --layout=reverse -i --ansi --preview "$PREVIEW_SCRIPT {}")
+selected_repo=$(cat "$SESSIONS_FILE" | fzf --layout=reverse -i --ansi --preview "$PREVIEW_SCRIPT {}")
 session_name=$selected_repo
+
+if [ -z "$selected_repo" ]; then
+    exit 0
+fi
 
 if tmux has-session -t "$session_name" 2>/dev/null; then
     if [ -n "$TMUX" ]; then
