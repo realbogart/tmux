@@ -8,6 +8,8 @@ TMP_DIR=$SCRIPT_DIR/../tmp
 GITROOTS_FILE="$RESOURCES_DIR/gitroots"
 GITREPOS_FILE="$TMP_DIR/gitrepos"
 
+echo "Regenerating Git repository list '$GITREPOS_FILE'"
+
 default_dir=~
 
 if [ ! -d "$TMP_DIR" ]; then
@@ -41,4 +43,6 @@ else
     echo "$GITROOTS_FILE not found. Defaults to $HOME"
     find_git_dirs "$default_dir"
 fi
+
+echo "Done!"
 
