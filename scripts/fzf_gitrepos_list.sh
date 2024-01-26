@@ -10,7 +10,7 @@ if [ ! -f "$GITREPOS_FILE" ]; then
     "$SCRIPT_DIR/regenerate_gitrepos_list.sh"
 fi
 
-selected_repo=$(cat "$GITREPOS_FILE" | fzf --layout=reverse -i --preview "$PREVIEW_SCRIPT {}")
+selected_repo=$(cat "$GITREPOS_FILE" | fzf --layout=reverse -i --ansi --preview "$PREVIEW_SCRIPT {}")
 session_name=$selected_repo
 
 if tmux has-session -t "$session_name" 2>/dev/null; then
