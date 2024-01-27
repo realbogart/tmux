@@ -19,6 +19,12 @@ eval_and_verify_directories "$file_contents"
 
 git_dirs=""
 while IFS= read -r dir; do
+    echo "Indexing Git repositories from '$dir'"
+
+    if [[ -n "$git_dirs" ]]; then
+        git_dirs+=$'\n'
+    fi
+
     git_dirs+=$(find_git_dirs "$dir")
 done <<< "$verified_dirs"
 
