@@ -2,8 +2,9 @@
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd)
-TMP_DIR=$SCRIPT_DIR/../tmp
-SESSIONS_FILE="$TMP_DIR/sessions"
+CACHE_DIR=$SCRIPT_DIR/../cache
+SOURCES_DIR=$SCRIPT_DIR/../sources
+SESSIONS_FILE="$CACHE_DIR/sessions"
 PREVIEW_SCRIPT=$SCRIPT_DIR/preview_session.sh
 
 if [ ! -f "$SESSIONS_FILE" ]; then

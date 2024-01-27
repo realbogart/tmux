@@ -3,16 +3,36 @@
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd)
 USERDATA_DIR=$SCRIPT_DIR/../userdata
-TMP_DIR=$SCRIPT_DIR/../tmp
+CACHE_DIR=$SCRIPT_DIR/../cache
 
-SESSIONS_FILE="$TMP_DIR/sessions"
+SESSIONS_FILE="$CACHE_DIR/sessions"
 
-echo "Regenerating sessions list '$SESSIONS_FILE'"
+eval_and_verify_directories() {
+    local input="$1"
+    verified_dirs=""
 
-default_dir=~
+    IFS=$'\n' read -rd '' -a lines <<< "$input"
 
-if [ ! -d "$TMP_DIR" ]; then
-    mkdir -p "$TMP_DIR"
+    for line in "${lines[@]}"; do
+        local expanded_line
+        expanded_line=$(eval echo "$line")
+
+        if [ -d "$expanded_line" ]; then
+            verified_dirs+="${expanded_line}"$'\n'
+        else
+            echo "Directory $expanded_line not found, skipping..."
+        fi
+    done
+
+    verified_dirs=$(echo "$verified_dirs" | awk 'NF')
+}
+
+if [ ! -d "$CACHE_DIR" ]; then
+    mkdir -p "$CACHE_DIR"
+fi
+
+if [ ! -d "$USERDATA_DIR" ]; then
+    mkdir -p "$USERDATA_DIR"
 fi
 
 > $SESSIONS_FILE

@@ -4,21 +4,11 @@ CUSTOM_FILE="$USERDATA_DIR/custom"
 
 echo "Generating custom list..."
 
-expand_variables() {
-    local path="$1"
-    eval echo "$path"
-}
-
-if [ -f $CUSTOM_FILE ]; then
-    while IFS= read -r line
-    do
-        line=$(expand_variables "$line")
-
-        if [ -d "$line" ]; then
-            echo $line >> $SESSIONS_FILE
-        else
-            echo "Directory $line not found, skipping..."
-        fi
-    done < $CUSTOM_FILE
+if [ ! -f "$CUSTOM_FILE" ]; then
+    echo "'$CUSTOM_FILE' not found. Skipping."
+    exit 0
 fi
 
+file_contents=$(cat "$CUSTOM_FILE")
+eval_and_verify_directories "$file_contents"
+echo -e "$verified_dirs" > "$SESSIONS_FILE"

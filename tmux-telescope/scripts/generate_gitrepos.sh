@@ -4,29 +4,23 @@ GITROOTS_FILE="$USERDATA_DIR/gitroots"
 
 echo "Generating Git repository list..."
 
+if [ ! -f "$GITROOTS_FILE" ]; then
+    echo "Creating '$GITROOTS_FILE' with default directory '~'"
+    echo "~" > "$GITROOTS_FILE"
+fi
+
 find_git_dirs() {
     local dir_path="$1"
-    find "$dir_path" -name ".git" | sed 's/\.git$//' >> $SESSIONS_FILE
+    find "$dir_path" -name ".git" | sed 's/\.git$//'
 }
 
-expand_variables() {
-    local path="$1"
-    eval echo "$path"
-}
+file_contents=$(cat "$GITROOTS_FILE")
+eval_and_verify_directories "$file_contents"
 
-if [ -f $GITROOTS_FILE ]; then
-    while IFS= read -r line
-    do
-        line=$(expand_variables "$line")
+git_dirs=""
+while IFS= read -r dir; do
+    git_dirs+=$(find_git_dirs "$dir")
+done <<< "$verified_dirs"
 
-        if [ -d "$line" ]; then
-            find_git_dirs "$line"
-        else
-            echo "Directory $line not found, skipping..."
-        fi
-    done < $GITROOTS_FILE
-else
-    echo "$GITROOTS_FILE not found. Defaults to $HOME"
-    find_git_dirs "$default_dir"
-fi
+echo "$git_dirs" >> "$SESSIONS_FILE"
 

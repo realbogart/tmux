@@ -1,2 +1,2 @@
 plugins/*
-tmp/*
+tmux-telescope/cache/*
