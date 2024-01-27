@@ -1,6 +1,6 @@
 #!/bin/bash
 
-CUSTOM_FILE="$RESOURCES_DIR/custom"
+CUSTOM_FILE="$USERDATA_DIR/custom"
 
 echo "Generating custom list..."
 

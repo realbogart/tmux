@@ -2,7 +2,7 @@
 
 SCRIPT_DIR=$(dirname "${BASH_SOURCE[0]}")
 SCRIPT_DIR=$(cd "$SCRIPT_DIR" && pwd)
-RESOURCES_DIR=$SCRIPT_DIR/../resources
+USERDATA_DIR=$SCRIPT_DIR/../userdata
 TMP_DIR=$SCRIPT_DIR/../tmp
 
 SESSIONS_FILE="$TMP_DIR/sessions"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-GITROOTS_FILE="$RESOURCES_DIR/gitroots"
+GITROOTS_FILE="$USERDATA_DIR/gitroots"
 
 echo "Generating Git repository list..."
 
